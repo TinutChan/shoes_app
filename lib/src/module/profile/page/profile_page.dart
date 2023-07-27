@@ -330,10 +330,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   '${profileCon.userProfileModel.value.firstName}\t'
                                   '${profileCon.userProfileModel.value.lastName}',
                               isLastText: true,
-                              onTap: () {
-                                debugPrint('onTap');
-                                profileCon.fecthUserProfile();
-                              },
                             ),
                             const Divider(),
                             const SizedBox(
