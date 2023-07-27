@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../constant/app_setting.dart';
 import '../../../util/custom_lable_icon.dart';
 import '../../../util/show_select_gender.dart';
@@ -62,9 +61,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Column(
                           children: profileCon.userProfileModel.value.profiles!
                               .asMap()
-                              .values
+                              .entries
                               .map((e) {
-                            if (e.isLatest == true) {
+                            if (e.key ==
+                                profileCon.userProfileModel.value.profiles!
+                                        .length -
+                                    1) {
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -92,14 +94,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                               decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: e.imageUrl == null
+                                              child: e.value.imageUrl == null ||
+                                                      profileCon.imagePath.value
+                                                          .isEmpty
                                                   ? Image.asset(
                                                       'assets/image/profile.png')
-                                                  : profileCon.image == null
+                                                  : profileCon.image == null ||
+                                                          e.value.isLatest ==
+                                                              true
                                                       ? CachedNetworkImage(
                                                           fit: BoxFit.cover,
                                                           imageUrl:
-                                                              "${e.imageUrl}",
+                                                              "${e.value.imageUrl}",
                                                           placeholder: (context,
                                                                   url) =>
                                                               Shimmer
@@ -189,7 +195,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                         ? profileCon
                                                                             .imagePath
                                                                             .value
-                                                                        : e.imageUrl,
+                                                                        : e.value
+                                                                            .imageUrl,
                                                                   ),
                                                                   maintainState:
                                                                       false,
@@ -218,12 +225,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                                               // }
                                                               profileCon
                                                                   .update();
-                                                              Get.snackbar(
-                                                                  'Picture saved to ${profileCon.imagePath}',
-                                                                  'Successfully created',
-                                                                  snackPosition:
-                                                                      SnackPosition
-                                                                          .BOTTOM);
+                                                              // Get.snackbar(
+                                                              //     'Picture saved to ${profileCon.imagePath}',
+                                                              //     'Successfully created',
+                                                              //     snackPosition:
+                                                              //         SnackPosition
+                                                              //             .BOTTOM);
                                                               context.pop();
                                                             },
                                                           ),
